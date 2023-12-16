@@ -3,10 +3,10 @@ const express = require("express");
 const teacherRouter = express.Router();
 
 const TEACHERS = require("../mock/teachers");
-const requireAPIKey = require("../middleware/requireAPIKey");
+const verifyJwt = require("../middleware/verifyJwt");
 const logRequestMethod = require("../middleware/logRequestMethod");
 
-teacherRouter.use(requireAPIKey);
+teacherRouter.use(verifyJwt);
 teacherRouter.use("/:id", logRequestMethod);
 
 
