@@ -5,7 +5,6 @@ const teacherRouter = express.Router();
 const TEACHERS = require("../mock/teachers");
 const requireAPIKey = require("../middleware/requireAPIKey");
 const logRequestMethod = require("../middleware/logRequestMethod");
-const teachers = require("../mock/teachers");
 
 teacherRouter.use(requireAPIKey);
 teacherRouter.use("/:id", logRequestMethod);
