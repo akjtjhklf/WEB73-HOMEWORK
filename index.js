@@ -4,6 +4,7 @@ const teacherRouter = require("./routes/teachers");
 const usersRouter = require("./routes/users");
 const logRequestTime = require("./middleware/logRequestTime");
 const authRouter = require("./routes/auth");
+const { connectToDB } = require("./utils/connectToDB")
 
 
 const app = express();
@@ -20,5 +21,6 @@ app.get('/', (req, res) => {
 })
 
 app.listen(port, () => {
-    console.log(`Listening on port http://localhost:${port}`);
+    console.log(`Listening on port ${port}`);
+    connectToDB();
 })
