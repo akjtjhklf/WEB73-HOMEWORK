@@ -1,5 +1,16 @@
-const fileSystem = require('./modules/fileSystem')
+const express = require("express")
 
-fileSystem.createFile('Test.txt', 'Hello world!')
+const teacherRouter = require("./routes/teachers")
 
-fileSystem.readFile('Test.txt')
+const app = express()
+const port = 3001
+
+app.get('/', (req, res) => {
+    res.send('Hello, this is my homepage')
+})
+app.use("/teachers", teacherRouter);
+
+
+app.listen(port, () => {
+    console.log(`Listening on port http://localhost:${port}`)
+})
