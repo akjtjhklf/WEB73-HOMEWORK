@@ -4,19 +4,15 @@ const teacherRouter = express.Router();
 
 const TEACHERS = require("../mock/teachers");
 const requireAPIKey = require("../middleware/requireAPIKey");
-const logRequestMethod = require("../middleware/logRequestMethod")
+const logRequestMethod = require("../middleware/logRequestMethod");
+const teachers = require("../mock/teachers");
 
 teacherRouter.use(requireAPIKey);
 teacherRouter.use("/:id", logRequestMethod);
 
+
 teacherRouter.get("/", (req, res) => {
     res.json(TEACHERS);
-})
-
-teacherRouter.get("/add", (req, res) => {
-    const newTeacher = { name: Daniel, age: 32 }
-    TEACHERS.push(newTeacher)
-    res.json(TEACHERS)
 })
 
 teacherRouter.get("/:id", (req, res) => {
@@ -48,5 +44,38 @@ teacherRouter.get('/', (req, res) => {
     res.json(filteredTeachers);
 });
 
+teacherRouter.post("/", (req, res) => {
+    const newteacher = {
+        id: TEACHERS.length + 1,
+        ...req.body,
+    };
+    TEACHERS.push(newteacher);
+    res.json(newteacher);
+});
+
+teacherRouter.put("/:id", (req,res)=>{
+    const teacherIndex = TEACHERS.findIndex(
+        (teacher) => teacher.id == req.params.id
+    );
+    if(teacherIndex === -1){
+        res.send("Not found teacher");
+    } else{
+        const updatedTeacher = {...TEACHERS[teacherIndex], ...req.body};
+        TEACHERS[teacherIndex] = updatedTeacher;
+        res.json(updatedTeacher);
+    }   
+});
+
+teacherRouter.delete("/:id", (req,res) => {
+    const teacherIndex = TEACHERS.findIndex(
+        (teacher) => teacher.id == req.params.id
+    );
+    if(teacherIndex === -1){
+        res.send("Not found teacher");
+    } else {
+        TEACHERS.splice(teacherIndex,1);
+        res.send("Delete successfully");
+    }
+})
 
 module.exports = teacherRouter;
